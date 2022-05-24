@@ -1,0 +1,29 @@
+{
+  "name": "web-chat",
+  "version": "1.0.0",
+  "description": "",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@anikin/parcel-transformer-handlebars": "^1.0.9",
+    "@parcel/transformer-sass": "^2.5.0",
+    "parcel": "^2.5.0",
+    "sass": "^1.51.0"
+  },
+  "scripts": {
+    "build": "parcel build ./src/pages/index.hbs --no-cache --public-url ./",
+    "start": "parcel src/pages/index.hbs --port 3000 --no-cache && parcel watch ./src/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mickilol/web-chat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mickilol/web-chat/issues"
+  },
+  "homepage": "https://github.com/Mickilol/web-chat#readme"
+}

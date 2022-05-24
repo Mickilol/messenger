@@ -1,0 +1,12 @@
+<div class="field__wrapper">
+  <input 
+    type="{{type}}"
+    name="{{name}}"
+    placeholder=" "
+    class="field__input"
+    value="{{initialValue}}"
+    {{#if disabled}}disabled{{/if}}
+  >
+  <label class="field__label  {{#if disabled}}field__label_disabled{{/if}}">{{label}}</label>
+  <span class="field__error">{{errorMessage}}</span>
+</div>

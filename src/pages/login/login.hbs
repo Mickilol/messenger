@@ -1,0 +1,29 @@
+---
+title: Login
+loginError: null
+passwordError: null
+css:
+  - style.scss
+---
+
+{{!< main}}
+
+<div class="login__wrapper">
+  <div class="login__card">
+    <h1 class="login__title">
+      Вход
+    </h1>
+
+    <form name="loginForm" class="login__form">
+      {{> field type="text" name="login" label="Логин" errorMessage=loginError }}
+
+      {{> field type="password" name="password" label="Пароль" errorMessage=passwordError }}
+
+      <div class="login__actions">
+        {{> button type="submit" text="Авторизоваться" }}
+
+        <a href="../register/register.hbs" class="link">Нет аккаунта?</a>
+      </div>
+    </form>
+  </div>
+</div>
