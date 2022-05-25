@@ -74,6 +74,10 @@
     font-size: 12px;
     line-height: 12px;
     color: $darkColor;
+
+    &::placeholder {
+      color: transparent;
+    }
   }
 
   &__label {
@@ -367,6 +371,10 @@
 
     background: $grayBackgroundColor;
     color: $darkColor;
+    
+    &::placeholder {
+      color: transparent;
+    }
   }
 
   &__label {
