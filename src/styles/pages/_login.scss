@@ -1,4 +1,4 @@
-@import '../../styles/variables.scss';
+@use '../abstracts/_variables' as *;
 
 .login {
   &__wrapper {

@@ -2,13 +2,11 @@
 title: Login
 loginError: null
 passwordError: null
-css:
-  - style.scss
 ---
 
 {{!< main}}
 
-<div class="login__wrapper">
+<main class="login__wrapper">
   <div class="login__card">
     <h1 class="login__title">
       Вход
@@ -22,8 +20,8 @@ css:
       <div class="login__actions">
         {{> button type="submit" text="Авторизоваться" }}
 
-        <a href="../register/register.hbs" class="link">Нет аккаунта?</a>
+        <a href="./register.hbs" class="link">Нет аккаунта?</a>
       </div>
     </form>
   </div>
-</div>
+</main>
