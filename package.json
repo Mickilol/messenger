@@ -15,7 +15,7 @@
     "sass": "^1.51.0"
   },
   "scripts": {
-    "build": "rm -r dist && parcel build ./src/pages/index.hbs --no-cache --public-url ./",
+    "build": "parcel build ./src/pages/index.hbs --no-cache --public-url ./",
     "watch": "parcel watch ./src/pages/index.hbs --no-cache",
     "start": "npm run build && node server.js"
   },
