@@ -1,0 +1,9 @@
+@use '../abstracts/variables' as *;
+
+.link {
+  font-size: 11px;
+  line-height: 11px;
+  color: $blueColor;
+
+  text-decoration: none;
+}

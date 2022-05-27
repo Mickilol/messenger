@@ -1,0 +1,48 @@
+@use '../abstracts/_variables' as *;
+
+.login {
+  &__wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__card {
+    width: 350px;
+    height: 450px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.14);
+    border-radius: 12px;
+  }
+
+  &__title {
+    margin-top: 20px;
+    margin-bottom: 40px;
+    text-align: center;
+
+    color: $darkColor;
+    font-size: 20px;
+    line-height: 20px;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+
+  &__actions {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & > * {
+      margin-top: 15px;
+    }
+  }
+}

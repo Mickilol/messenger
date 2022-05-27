@@ -1,0 +1,57 @@
+---
+title: Profile 
+viewMode: true
+---
+
+{{!< main}}
+
+<main class="profile__wrapper">
+  <a href="./chats.hbs" class="profile__back-link">
+    <span class="profile__back-icon">
+      <i class="fa-solid fa-arrow-left"></i>
+    </span>
+  </a>
+
+  <div class="profile__content">
+    <div class="profile__avatar">
+      <i class="fa-solid fa-image fa-3x"></i>
+    </div>
+    <span class="profile__name">{{user.display_name}}</span>
+
+    <form class="profile__data-form" id="profileForm">
+      {{> field 
+        type="email" initialValue=user.email name="email" label="Почта" disabled=true errorMessage=errors.email 
+      }}
+
+      {{> field 
+        type="text" name="login" initialValue=user.login label="Логин" disabled=true errorMessage=errors.login 
+      }}
+
+      {{> field 
+        type="text" name="first_name" initialValue=user.first_name label="Имя" disabled=true errorMessage=errors.first_name 
+      }}
+
+      {{> field 
+        type="text" name="second_name" initialValue=user.second_name label="Фамилия" disabled=true errorMessage=errors.second_name
+      }}
+
+      {{> field 
+        type="text" name="display_name" initialValue=user.display_name label="Имя в чате" disabled=true errorMessage=errors.display_name
+      }}
+
+      {{> field 
+        type="tel" name="phone" initialValue=user.phone label="Телефон" disabled=true errorMessage=errors.phone
+      }}
+    </form>
+
+    <div class="profile__actions">
+      {{#if viewMode}}
+        <span class="profile__action">Изменить данные</span>
+        <span class="profile__action">Изменить пароль</span>
+        <span class="profile__action profile__action_exit">Выйти</span>
+      {{else}}
+        {{> button type="submit" text="Сохранить" formId="profileForm" }}
+      {{/if}}
+    </div>
+  </div>
+</main>

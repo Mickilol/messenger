@@ -1,0 +1,18 @@
+@use '../abstracts/variables' as *;
+
+.button {
+  width: 100%;
+  padding: 12px;
+
+  cursor: pointer;
+
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  color: $whiteColor;
+  background-color: $blueColor;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
