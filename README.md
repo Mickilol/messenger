@@ -1,4 +1,4 @@
-RP: [Sprint 2](https://github.com/Mickilol/middle.messenger.praktikum.yandex/pull/2)
+PR: [Sprint 2](https://github.com/Mickilol/middle.messenger.praktikum.yandex/pull/2)
 
 ## Описание
 
