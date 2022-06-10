@@ -27,8 +27,21 @@ npm start
 
 ## Стек разработки
 
+### Сервер
+
+- Node JS
+- Express
+
+### Клиент 
+
 - Handlebars
 - Sass
 - TypeScript
 - JavaScript
 - Parcel
+
+### Качество кода
+
+- Eslint
+- Stylelint
+- EditorConfig

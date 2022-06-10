@@ -1,0 +1,12 @@
+@use '../../styles/abstracts/variables' as *;
+
+.field {
+  &__error {
+    height: 10px;
+    margin-top: 7px;
+
+    color: $errorColor;
+    font-size: 8px;
+    font-weight: 400;
+  }
+}

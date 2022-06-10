@@ -1,0 +1,11 @@
+{
+  "extends": "stylelint-config-standard-scss",
+  "rules": {
+    "string-quotes": "single",
+    "no-eol-whitespace": null,
+    "declaration-empty-line-before": null,
+    "scss/dollar-variable-pattern": null,
+    "color-function-notation": "legacy",
+    "alpha-value-notation": "number"
+  }
+}

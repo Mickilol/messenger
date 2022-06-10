@@ -1,0 +1,33 @@
+@use '../../styles/abstracts/variables' as *;
+
+.field {
+  &__input {
+    width: 100%;
+    padding: 7px 0;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid $blueColor;
+    
+    font-size: 13px;
+    line-height: 13px;
+    color: $darkColor;
+
+    &:disabled {
+      background-color: $whiteColor;
+      border-color: $grayBorderColor;
+
+      color: $grayTextColor;
+      text-align: right;
+    }
+
+    &::placeholder {
+      color: transparent;
+    }
+  }
+
+  &__input:focus + &__label,
+  &__input:not(:placeholder-shown) + &__label {
+    transform: translateY(-16px);
+    font-size: 9px;
+  }
+}
