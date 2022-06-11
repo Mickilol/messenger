@@ -6,12 +6,14 @@ import './login.scss';
 
 interface IProps { }
 
+interface IState { }
+
 interface IRefs {
   login: Field;
   password: Field;
 }
 
-export class Login extends Block<IProps, null, IRefs> {
+export class Login extends Block<IProps, IState, IRefs> {
   constructor(props: IProps) {
     super(props);
 

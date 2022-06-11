@@ -21,23 +21,23 @@ type Options = {
 
 export class HTTPTransport {
   get = (url: string, options: Options = {}) => {
-    return this.request(url, Methods.GET, options, options.timeout);
+    return this.request(url, Methods.GET, options);
   };
   
   put = (url: string, options: Options = {}) => {
-    return this.request(url, Methods.PUT, options, options.timeout);
+    return this.request(url, Methods.PUT, options);
   };
   
   post = (url: string, options: Options = {}) => {
-    return this.request(url, Methods.POST, options, options.timeout);
+    return this.request(url, Methods.POST, options);
   };
   
   delete = (url: string, options: Options = {}) => {
-    return this.request(url, Methods.DELETE, options, options.timeout);
+    return this.request(url, Methods.DELETE, options);
   };
 
-  private request = (url: string, method: Methods, options: Options, timeout: number = 5000) => {
-    const { data, headers } = options;
+  private request = (url: string, method: Methods, options: Options) => {
+    const { data, headers, timeout = 5000 } = options;
     
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();

@@ -6,6 +6,8 @@ import './register.scss';
 
 interface IProps { }
 
+interface IState { }
+
 interface IRefs {
   email: Field;
   login: Field;
@@ -16,7 +18,7 @@ interface IRefs {
   password_repeat: Field;
 }
 
-export class Register extends Block<IProps, null, IRefs> {
+export class Register extends Block<IProps, IState, IRefs> {
   constructor(props: IProps) {
     super(props);
 

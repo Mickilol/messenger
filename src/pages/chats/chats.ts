@@ -16,7 +16,7 @@ interface IProps {
   handleMessageSend?: () => void;
 }
 
-const CHATS: ChatDTO[] = [
+const CHATS_STUB: readonly ChatDTO[] = Object.freeze([
   {
     id: 1,
     name: 'asdf',
@@ -25,10 +25,10 @@ const CHATS: ChatDTO[] = [
     timestamp: '12:23',
     unreadCounter: 1
   }
-];
+]);
 
 export class Chats extends Block<IProps> {
-  constructor({ chats = CHATS }: IProps) {
+  constructor({ chats = CHATS_STUB as ChatDTO[] }: IProps) {
     super({ chats });
 
     this.setProps({

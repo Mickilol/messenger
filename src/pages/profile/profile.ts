@@ -15,6 +15,8 @@ interface IProps {
   handlePasswordChangeBtnClick?: () => void;
 }
 
+interface IState { }
+
 interface IRefs {
   email: Field;
   login: Field;
@@ -34,7 +36,7 @@ const PASSWORD_CHANGE_MODE_KEYS_REFS: RefsKeys = [
   'old_password', 'password', 'password_repeat'
 ];
 
-export class Profile extends Block<IProps, null, IRefs> {
+export class Profile extends Block<IProps, IState, IRefs> {
   constructor({ viewMode = true, passwordChangeMode, user }: IProps) {
     super({
       viewMode,
