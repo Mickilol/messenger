@@ -1,3 +1,5 @@
+PR: [Sprint 2](https://github.com/Mickilol/middle.messenger.praktikum.yandex/pull/2)
+
 ## Описание
 
 Учебный проект веб-приложения "Мессенджер".
