@@ -1,0 +1,31 @@
+@use '../../styles/abstracts/variables' as *;
+
+.field {
+  &__wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+
+    & + & {
+      margin-top: 15px;
+    }
+  }
+
+  &__label {
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding-top: 15px;
+    color: $grayTextColor;
+
+    transition: 0.5s;
+
+    &_disabled {
+      font-size: 13px !important;
+      transform: translateY(0) !important;
+      color: $darkColor;
+    }
+  }
+}

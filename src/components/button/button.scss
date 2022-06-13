@@ -1,0 +1,32 @@
+@use '../../styles/abstracts/variables' as *;
+
+.button {
+  width: 100%;
+  padding: 12px;
+
+  cursor: pointer;
+
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  color: $whiteColor;
+  background-color: $blueColor;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.span-button {
+  padding: 10px 0;
+
+  font-size: 13px;
+  line-height: 13px;
+  color: $blueColor;
+
+  cursor: pointer;
+  
+  &_danger {
+    color: $redColor;
+  }
+}
