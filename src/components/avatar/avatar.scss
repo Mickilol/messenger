@@ -1,0 +1,20 @@
+@use '../../styles/abstracts/variables' as *;
+
+.avatar {
+  &__wrapper {
+    border-radius: 50%;
+    background-color: $grayBackgroundColor;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    color: #cdcdcd;
+  }
+  
+  &__image {
+    width: inherit;
+    height: inherit;
+    border-radius: 50%;
+  }
+}

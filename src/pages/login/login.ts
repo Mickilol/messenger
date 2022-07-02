@@ -1,12 +1,27 @@
 import { Field } from '../../components';
 import Block from '../../core/Block';
+import { PageUrl } from '../../utils/urls';
 import { ValidationRule } from '../../utils/validator';
+import authService from '../../services/auth';
+import { connect } from '../../core/connect';
+import { AppState } from '../../store/types';
 
 import './login.scss';
 
-interface IProps { }
+interface IOwnProps {
+  handleButtonClick: (e: SubmitEvent) => void;
+}
 
-interface IState { }
+interface IStateToProps {
+  loginError?: string;
+  isLoading: boolean;
+}
+
+type IProps = IOwnProps & IStateToProps;
+
+interface IState {
+  values: Record<keyof IRefs, string>;
+}
 
 interface IRefs {
   login: Field;
@@ -22,6 +37,15 @@ export class Login extends Block<IProps, IState, IRefs> {
     });
   }
 
+  protected getStateFromProps(): void {
+    this.state = {
+      values: {
+        login: '',
+        password: ''
+      }
+    };
+  }
+
   private get refsKeys(): Array<keyof IRefs> {
     return Object.keys(this.refs) as Array<keyof IRefs>;
   }
@@ -34,7 +58,9 @@ export class Login extends Block<IProps, IState, IRefs> {
     return this.refsKeys.some(key => this.refs[key].getError());
   };
 
-  private handleButtonClick = () => {
+  private handleButtonClick = (e: SubmitEvent) => {
+    e.preventDefault();
+
     if (this.isFormInvalid()) {
       return;
     }
@@ -45,7 +71,9 @@ export class Login extends Block<IProps, IState, IRefs> {
       return acc;
     }, {} as Record<keyof IRefs, string>);
 
-    console.log(values);
+    this.setState({ values });
+
+    authService.login(values);
   };
 
   render() {
@@ -57,14 +85,29 @@ export class Login extends Block<IProps, IState, IRefs> {
           </h1>
       
           <form name="loginForm" class="login__form">
-            {{{Field type="text" name="login" label="Логин" validationRule="${ValidationRule.LOGIN}" ref="login"}}}
+            {{{Field 
+              type="text"
+              name="login"
+              value=values.login
+              label="Логин"
+              validationRule="${ValidationRule.LOGIN}"
+              ref="login"
+            }}}
 
-            {{{Field type="password" name="password" label="Пароль" validationRule="${ValidationRule.PASSWORD}" ref="password"}}}
+            {{{Field
+              type="password"
+              name="password"
+              value=values.password
+              label="Пароль"
+              validationRule="${ValidationRule.PASSWORD}"
+              ref="password"
+            }}}
 
             <div class="login__actions">
-              {{{Button type="submit" text="Авторизоваться" onClick=handleButtonClick }}}
+              {{{Button text="Авторизоваться" onClick=handleButtonClick isLoading=isLoading }}}
+              {{{Error text=loginError }}}
       
-              {{{Link href="./register" text="Нет аккаунта?" }}}
+              {{{Link href="${PageUrl.REGISTER}" text="Нет аккаунта?" }}}
             </div>
           </form>
         </div>
@@ -72,3 +115,5 @@ export class Login extends Block<IProps, IState, IRefs> {
     `;
   }
 }
+
+export default connect(Login, ({ loginError, isLoading }: AppState): IStateToProps => ({ loginError, isLoading }));

@@ -2,6 +2,11 @@ import EventBus from './EventBus';
 import { nanoid } from 'nanoid';
 import Handlebars from 'handlebars';
 
+export interface BlockConstructable<P = any> {
+  new(props: P): Block;
+  componentName: string;
+}
+
 interface BlockMeta<P = any> {
   props: P;
 }
@@ -15,6 +20,8 @@ export default class Block<P = any, S = any, R = any> {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
     FLOW_CDU: 'flow:component-did-update',
+    FLOW_CWU: 'flow:component-will-unmount',
+    FLOW_CU: 'flow:component-updated',
     FLOW_RENDER: 'flow:render',
   } as const;
 
@@ -52,6 +59,8 @@ export default class Block<P = any, S = any, R = any> {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CWU, this._componentWillUnmount.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CU, this._componentUpdated.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
@@ -76,8 +85,19 @@ export default class Block<P = any, S = any, R = any> {
     this.componentDidMount();
   }
 
-  componentDidMount() {
+  componentDidMount() {}
+
+  _componentWillUnmount() {
+    this.componentWillUnmount();
   }
+
+  componentWillUnmount() {}
+
+  _componentUpdated(oldProps: P, newProps: P) {
+    this.componentUpdated(oldProps, newProps);
+  }
+
+  componentUpdated(oldProps: P, newProps: P) { }
 
   _componentDidUpdate(oldProps: P, newProps: P) {
     const response = this.componentDidUpdate(oldProps, newProps);
@@ -85,6 +105,7 @@ export default class Block<P = any, S = any, R = any> {
       return;
     }
     this._render();
+    this.eventBus().emit(Block.EVENTS.FLOW_CU, oldProps, newProps);
   }
 
   componentDidUpdate(oldProps: P, newProps: P) {
@@ -99,7 +120,7 @@ export default class Block<P = any, S = any, R = any> {
     Object.assign(this.props, nextProps);
   };
 
-  setState = (nextState: S) => {
+  setState = (nextState: Partial<S>) => {
     if (!nextState) {
       return;
     }
@@ -214,10 +235,12 @@ export default class Block<P = any, S = any, R = any> {
   }
 
   show() {
-    this.getContent().style.display = 'block';
+    this.getContent().style.display = 'flex';
+    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
   hide() {
+    this.eventBus().emit(Block.EVENTS.FLOW_CWU);
     this.getContent().style.display = 'none';
   }
 }

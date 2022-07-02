@@ -1,0 +1,89 @@
+@use '../../styles/abstracts/variables' as *;
+
+.search-field {
+  &__wrapper {
+    position: relative;
+  }
+
+  &__input {
+    height: 32px;
+    width: 100%;
+
+    padding: 10px 35px;
+    border: none;
+    border-radius: 5px;
+
+    background: $grayBackgroundColor;
+    
+    font-size: 12px;
+    line-height: 12px;
+    color: $darkColor;
+
+    &::placeholder {
+      color: transparent;
+    }
+  }
+
+  &__label {
+    pointer-events: none;
+    position: absolute;
+    padding: 10px;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+
+    font-size: 12px;
+    line-height: 12px;
+    color: $grayTextColor;
+  }
+
+  &__input:focus ~ &__label,
+  &__input:not(:placeholder-shown) ~ &__label {
+    display: none;
+  }
+
+  &__icon {
+    pointer-events: none;
+    position: absolute;
+
+    top: 50%;
+    left: 35%;
+    transform: translateY(-50%);
+
+    width: 20px;
+    height: 20px;
+    transition: 0.3s;
+
+    &::before {
+      position: absolute;
+      content: '';
+      left: 50%;
+      top: 3px;
+      transform: translateX(-50%);
+
+      width: 7px;
+      height: 7px;
+      background-color: transparent;
+
+      border: 1px solid $grayTextColor;
+      border-radius: 50%;
+    }
+
+    &::after {
+      position: absolute;
+      content: '';
+      left: 66%;
+      top: 50%;
+      transform: rotate(-45deg);
+
+      width: 1px;
+      height: 5px;
+      background-color: $grayTextColor;
+    }
+  }
+
+  &__input:focus ~ &__icon,
+  &__input:not(:placeholder-shown) ~ &__icon {
+    left: 10;
+  }
+}

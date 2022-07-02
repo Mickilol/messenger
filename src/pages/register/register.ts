@@ -1,12 +1,27 @@
 import { Field } from '../../components';
 import Block from '../../core/Block';
+import { connect } from '../../core/connect';
+import { AppState } from '../../store/types';
+import { PageUrl } from '../../utils/urls';
 import { ValidationRule } from '../../utils/validator';
+import authService from '../../services/auth';
 
 import './register.scss';
 
-interface IProps { }
+interface IOwnProps {
+  handleButtonClick: (e: SubmitEvent) => void;
+}
 
-interface IState { }
+interface IStateToProps {
+  registerError?: string;
+  isLoading: boolean;
+}
+
+type IProps = IOwnProps & IStateToProps;
+
+interface IState {
+  values: Record<keyof IRefs, string>;
+}
 
 interface IRefs {
   email: Field;
@@ -18,13 +33,27 @@ interface IRefs {
   password_repeat: Field;
 }
 
-export class Register extends Block<IProps, IState, IRefs> {
+class Register extends Block<IProps, IState, IRefs> {
   constructor(props: IProps) {
     super(props);
 
     this.setProps({
       handleButtonClick: this.handleButtonClick
     });
+  }
+
+  protected getStateFromProps(): void {
+    this.state = {
+      values: {
+        email: '',
+        login: '',
+        first_name: '',
+        second_name: '',
+        phone: '',
+        password: '',
+        password_repeat: '',
+      }
+    };
   }
 
   private get refsKeys(): Array<keyof IRefs> {
@@ -37,7 +66,7 @@ export class Register extends Block<IProps, IState, IRefs> {
     });
 
     let hasErrors = this.refsKeys.some(key => this.refs[key].getError());
-    
+
     if (this.refs.password.getValue() !== this.refs.password_repeat.getValue()) {
       hasErrors = true;
       this.refs.password_repeat.showError('Пароли не совпадают');
@@ -46,7 +75,9 @@ export class Register extends Block<IProps, IState, IRefs> {
     return hasErrors;
   };
 
-  private handleButtonClick = () => {
+  private handleButtonClick = (e: SubmitEvent) => {
+    e.preventDefault();
+
     if (this.isFormInvalid()) {
       return;
     }
@@ -57,7 +88,9 @@ export class Register extends Block<IProps, IState, IRefs> {
       return acc;
     }, {} as Record<keyof IRefs, string>);
 
-    console.log(values);
+    this.setState({ values });
+
+    authService.register(values);
   };
 
   render() {
@@ -72,6 +105,7 @@ export class Register extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="email"
               name="email"
+              value=values.email
               label="Почта"
               validationRule="${ValidationRule.EMAIL}"
               ref="email"
@@ -80,6 +114,7 @@ export class Register extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="text"
               name="login"
+              value=values.login
               label="Логин"
               validationRule="${ValidationRule.LOGIN}"
               ref="login"
@@ -88,6 +123,7 @@ export class Register extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="text"
               name="first_name"
+              value=values.first_name
               label="Имя"
               validationRule="${ValidationRule.NAME}"
               ref="first_name"
@@ -96,6 +132,7 @@ export class Register extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="text"
               name="second_name"
+              value=values.second_name
               label="Фамилия"
               validationRule="${ValidationRule.NAME}"
               ref="second_name"
@@ -104,6 +141,7 @@ export class Register extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="tel"
               name="phone"
+              value=values.phone
               label="Телефон"
               validationRule="${ValidationRule.PHONE}"
               ref="phone"
@@ -112,6 +150,7 @@ export class Register extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="password"
               name="password"
+              value=values.password
               label="Пароль"
               validationRule="${ValidationRule.PASSWORD}"
               ref="password"
@@ -120,15 +159,17 @@ export class Register extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="password" 
               name="password_repeat"
+              value=values.password_repeat
               label="Пароль (еще раз)"
               validationRule="${ValidationRule.PASSWORD}"
               ref="password_repeat"
             }}}
       
             <div class="register__actions">
-              {{{Button type="submit" text="Зарегистрироваться" onClick=handleButtonClick }}}
+              {{{Button type="submit" text="Зарегистрироваться" onClick=handleButtonClick isLoading=isLoading }}}
+              {{{Error text=registerError }}}
       
-              {{{Link href="./register" text="Войти" }}}
+              {{{Link href="${PageUrl.LOGIN}" text="Войти" }}}
             </div>
           </form>
         </div>
@@ -136,3 +177,5 @@ export class Register extends Block<IProps, IState, IRefs> {
     `;
   }
 }
+
+export default connect(Register, ({ registerError, isLoading }: AppState): IStateToProps => ({ registerError, isLoading }));

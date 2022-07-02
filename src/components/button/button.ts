@@ -19,6 +19,7 @@ interface IProps {
   classes?: string;
   spanType?: ButtonType;
   style?: ButtonStyle;
+  isLoading: boolean;
   onClick?: (e: Event) => void;
 }
 
@@ -47,7 +48,7 @@ export class Button extends Block {
     }
 
     return `
-      <button class="button {{classes}}" type="{{type}}" form="{{formId}}">
+      <button class="button {{classes}}" type="{{type}}" form="{{formId}}" {{#if isLoading}}disabled{{/if}}>
         {{text}} {{#if icon}}<i class="{{icon}}"></i>{{/if}}
       </button>
     `;

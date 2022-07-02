@@ -8,16 +8,18 @@ interface IProps {
   type: string;
   name: string;
   label: string;
-  initialValue?: string;
+  value?: string;
   disabled?: boolean;
+  accept?: string;
   validationRule?: ValidationRule;
 
   onBlur?: (e: Event) => void;
-  onInput?: (e: InputEvent) => void;
+  onInput?: (e: Event) => void;
+  onChange?: (value: unknown) => void;
 }
 
 interface IRefs {
-  error: FieldError;
+  error?: FieldError;
   input: FieldInput;
 }
 
@@ -39,15 +41,21 @@ export class Field extends Block<IProps, null, IRefs> {
     this._validate();
   };
 
-  private handleInput = () => {
-    this.refs.error.setProps({ message: '' });
+  private handleInput = (e: Event) => {
+    if (this.props.type === 'file' && this.props.onChange) {
+      const input = e.target as HTMLInputElement;
+
+      this.props.onChange(input.files?.[0]);
+    }
+    
+    this.refs.error?.setProps({ message: '' });
   };
 
   private _validate = () => {
     if (this.props.validationRule) {
       const message = validate(this.props.validationRule, this.refs.input.getValue());
 
-      this.refs.error.setProps({ message });
+      this.refs.error?.setProps({ message });
     }
   };
 
@@ -56,11 +64,11 @@ export class Field extends Block<IProps, null, IRefs> {
   };
 
   public getError = (): string => {
-    return this.refs.error.getErrorMessage();
+    return this.refs.error?.getErrorMessage() || '';
   };
 
   public showError = (message: string) => {
-    this.refs.error.setProps({ message });
+    this.refs.error?.setProps({ message });
   };
 
   public getValue = (): string => {
@@ -68,12 +76,34 @@ export class Field extends Block<IProps, null, IRefs> {
   };
 
   protected render() {
+    if (this.props.type === 'file') {
+      return `
+        <div>
+          {{#if value}}
+            <span class="file-field__name">{{value}}</span>
+          {{else}}
+            <label for="{{name}}" class="file-field__label">{{label}}</label>
+          {{/if}}
+
+          {{{FieldInput 
+            type="file"
+            name=name
+            initialValue=value
+            accept=accept
+            disabled=disabled
+            onInput=onInput
+            ref="input"
+          }}}
+        </div>
+      `;
+    }
+
     return `
       <div class="field__wrapper">
         {{{FieldInput 
           type=type
           name=name
-          initialValue=initialValue
+          initialValue=value
           disabled=disabled
           onInput=onInput
           onBlur=onBlur

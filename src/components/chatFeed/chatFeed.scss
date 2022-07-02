@@ -1,0 +1,43 @@
+@use '../../styles/abstracts/variables' as *;
+
+.chat-feed {
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: auto;
+
+  flex-grow: 1;
+  padding: 30px 0;
+  padding-right: 5px;
+}
+
+.chat-message {
+  &__wrapper {
+    position: relative;
+
+    max-width: 400px;
+    padding: 10px;
+    background-color: $messageBackground;
+    border-radius: 12px;
+
+    & + & {
+      margin-top: 10px;
+    }
+
+    &_yours {
+      align-self: flex-end;
+      background-color: $yourMessageBackground;
+    }
+  }
+
+  &__content {
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  &__time {
+    font-size: 9px;
+    line-height: 9px;
+    color: $grayTextColor;
+  }
+}

@@ -1,4 +1,5 @@
 import { Block } from '../../../core';
+import { PageUrl } from '../../../utils/urls';
 
 import '../error.scss';
 
@@ -16,7 +17,7 @@ export class Error500 extends Block {
       <main class="error-page__wrapper">
         <h1 class="error-page__code">{{code}}</h1>
         <span class="error-page__text">Мы уже фиксим</span>
-        {{{Link href="./chats" text="Назад к чатам" }}}
+        {{{Link href="${PageUrl.CHATS}" text="Назад к чатам" }}}
       </main>
     `;
   }
