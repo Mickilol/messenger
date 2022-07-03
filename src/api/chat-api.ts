@@ -1,35 +1,28 @@
 import { formatDate } from '../utils/formatDate';
 import { HTTPTransport } from '../utils/httpTransport';
-import { APIError, ChatDTO, ChatMessage, SocketContentType } from './types';
+import { API_ORIGIN } from './constants';
+import {
+  ChatDTO,
+  ChatMessage,
+  CreateChatRequestData,
+  DeleteChatRequestData,
+  DeleteChatResponseData,
+  GetChatsRequestData,
+  GetChatTokenRequestData,
+  GetChatTokenResponseData,
+  ModifyChatUserRequestData,
+  StartChattingData
+} from './types/chat.types';
+import { APIError, SocketContentType } from './types/types';
 
-export type CreateChatRequestData = { title: string; };
-
-export type DeleteChatRequestData = { chatId: number; };
-
-type DeleteChatResponseData = { userId: number; result: { id: number; title: string; avatar: string; } };
-
-export type GetChatsRequestData = { offset?: number; limit?: number; title?: string; };
-
-export type ModifyChatUserRequestData = { users: number[]; chatId: number; };
-
-type GetChatTokenRequestData = { id: number };
-
-type GetChatTokenResponseData = { token: string };
-
-type StartChattingData = {
-  userId: number;
-  chatId: number;
-  token: string;
-};
-
-const chatAPIInstance = new HTTPTransport('https://ya-praktikum.tech/api/v2');
+const chatAPIInstance = new HTTPTransport(API_ORIGIN);
 
 export class ChatAPI {
   socket: Nullable<WebSocket> = null;
   socketPingInterval: Nullable<number> = null;
 
   createChat = (data: CreateChatRequestData) => {
-    return chatAPIInstance.post<null | APIError>('/chats', { data });
+    return chatAPIInstance.post<Nullable<APIError>>('/chats', { data });
   };
 
   deleteChat = (data: DeleteChatRequestData) => {
@@ -57,11 +50,11 @@ export class ChatAPI {
   };
 
   addUser = (data: ModifyChatUserRequestData) => {
-    return chatAPIInstance.put<null | APIError>('/chats/users', { data, headers: { 'content-type': 'application/json' } });
+    return chatAPIInstance.put<Nullable<APIError>>('/chats/users', { data, headers: { 'content-type': 'application/json' } });
   };
 
   deleteUser = (data: ModifyChatUserRequestData) => {
-    return chatAPIInstance.delete<null | APIError>('/chats/users', { data, headers: { 'content-type': 'application/json' } });
+    return chatAPIInstance.delete<Nullable<APIError>>('/chats/users', { data, headers: { 'content-type': 'application/json' } });
   };
 
   getChatToken = (data: GetChatTokenRequestData) => {

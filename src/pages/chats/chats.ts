@@ -1,4 +1,4 @@
-import { ChatDTO, ChatMessage, UserDTO } from '../../api/types';
+import { UserDTO } from '../../api/types/types';
 import { ButtonType } from '../../components/button/button';
 import { ToolbarAction } from '../../components/toolbar/toolbar';
 import Block from '../../core/Block';
@@ -11,6 +11,7 @@ import avatarService from '../../services/avatar';
 import './chats.scss';
 import { ChatFeed, Field } from '../../components';
 import { trim } from '../../utils/mydash/trim';
+import { ChatDTO, ChatMessage } from '../../api/types/chat.types';
 
 interface IOwnProps {
   chatActions: ToolbarAction[];

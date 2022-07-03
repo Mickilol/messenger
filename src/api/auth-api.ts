@@ -1,20 +1,9 @@
 import { HTTPTransport } from '../utils/httpTransport';
-import { APIError, UserDTO } from './types';
+import { API_ORIGIN } from './constants';
+import { LoginRequestData, LoginResponseData, RegisterRequestData, RegisterResponseData } from './types/auth.types';
+import { APIError, UserDTO } from './types/types';
 
-export type LoginRequestData = {
-  login: string;
-  password: string;
-};
-
-type LoginResponseData = null | APIError;
-
-export type RegisterRequestData = Omit<UserDTO, 'display_name' | 'avatar' | 'id'> & {
-  password: string;
-};
-
-type RegisterResponseData = { id: number } | APIError;
-
-const authAPIInstance = new HTTPTransport('https://ya-praktikum.tech/api/v2');
+const authAPIInstance = new HTTPTransport(API_ORIGIN);
 
 export class AuthAPI {
   static __instance: AuthAPI;

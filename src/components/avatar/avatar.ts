@@ -1,3 +1,4 @@
+import { API_ORIGIN } from '../../api/constants';
 import Block from '../../core/Block';
 
 import './avatar.scss';
@@ -24,7 +25,7 @@ export class Avatar extends Block<IProps> {
     if (this.props.src) {
       return `
         <span class="avatar__wrapper {{classes}}">
-          <img src="https://ya-praktikum.tech/api/v2/resources{{src}}" alt="Avatar image" class="avatar__image">
+          <img src="${API_ORIGIN}/resources{{src}}" alt="Avatar image" class="avatar__image">
         </span>
       `;
     }

@@ -5,7 +5,7 @@ import { ButtonStyle, ButtonType } from '../../components/button/button';
 import Block from '../../core/Block';
 import { PageUrl } from '../../utils/urls';
 import { ValidationRule } from '../../utils/validator';
-import { UserDTO } from '../../api/types';
+import { UserDTO } from '../../api/types/types';
 import { connect } from '../../core/connect';
 import { AppState, AvatarChangeModal } from '../../store/types';
 import authService from '../../services/auth';

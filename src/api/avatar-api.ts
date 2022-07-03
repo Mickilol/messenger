@@ -1,7 +1,9 @@
 import { HTTPTransport } from '../utils/httpTransport';
-import { APIError, ChatDTO, UserDTO } from './types';
+import { API_ORIGIN } from './constants';
+import { ChatDTO } from './types/chat.types';
+import { APIError, UserDTO } from './types/types';
 
-const avatarAPIInstance = new HTTPTransport('https://ya-praktikum.tech/api/v2');
+const avatarAPIInstance = new HTTPTransport(API_ORIGIN);
 
 export class AvatarAPI {
   static __instance: AvatarAPI;

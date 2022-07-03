@@ -1,4 +1,4 @@
-import { ChatDTO } from '../../api/types';
+import { ChatDTO } from '../../api/types/chat.types';
 import { Block } from '../../core';
 
 import './chatsList.scss';

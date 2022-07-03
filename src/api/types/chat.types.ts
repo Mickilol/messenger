@@ -1,17 +1,4 @@
-export type APIError = {
-  reason: string;
-};
-
-export type UserDTO = {
-  id: number;
-  login: string;
-  first_name: string;
-  second_name: string;
-  display_name: string;
-  avatar: string;
-  phone: string;
-  email: string;
-};
+import { UserDTO } from './types';
 
 export type ChatDTO = {
   id: number;
@@ -53,15 +40,22 @@ type ChatMessageFile = {
   upload_date: string;
 };
 
-export type SocketDataFormat = {
-  type: SocketContentType;
-  content: string;
-};
+export type CreateChatRequestData = { title: string; };
 
-export enum SocketContentType {
-  CONNECTED = 'user connected',
-  PING = 'ping',
-  PONG = 'pong',
-  GET_OLD = 'get old',
-  MESSAGE = 'message'
-}
+export type DeleteChatRequestData = { chatId: number; };
+
+export type DeleteChatResponseData = { userId: number; result: { id: number; title: string; avatar: string; } };
+
+export type GetChatsRequestData = { offset?: number; limit?: number; title?: string; };
+
+export type ModifyChatUserRequestData = { users: number[]; chatId: number; };
+
+export type GetChatTokenRequestData = { id: number };
+
+export type GetChatTokenResponseData = { token: string };
+
+export type StartChattingData = {
+  userId: number;
+  chatId: number;
+  token: string;
+};

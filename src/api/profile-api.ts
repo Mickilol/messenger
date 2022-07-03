@@ -1,35 +1,24 @@
 import { HTTPTransport } from '../utils/httpTransport';
-import { APIError, UserDTO } from './types';
+import { API_ORIGIN } from './constants';
+import { FindUsersRequestData, ProfileResponseData, SavePasswordRequestData, SaveUserRequestData } from './types/profile.types';
+import { APIError, UserDTO } from './types/types';
 
-const profileAPIInstance = new HTTPTransport('https://ya-praktikum.tech/api/v2');
-
-export type SaveUserRequestData = Omit<UserDTO, 'id' | 'avatar'>;
-
-export type SavePasswordRequestData = {
-  oldPassword: string;
-  newPassword: string;
-};
-
-export type FindUsersRequestData = {
-  login: string;
-};
-
-type ResponseData = UserDTO | APIError;
+const profileAPIInstance = new HTTPTransport(API_ORIGIN);
 
 export class ProfileAPI {
   saveUser = (data: SaveUserRequestData) => {
-    return profileAPIInstance.put<ResponseData>('/user/profile', { data });
+    return profileAPIInstance.put<ProfileResponseData>('/user/profile', { data });
   };
 
   saveAvatar = (file: File) => {
     const data = new FormData();
     data.append('avatar', file);
 
-    return profileAPIInstance.put<ResponseData>('/user/profile/avatar', { data });
+    return profileAPIInstance.put<ProfileResponseData>('/user/profile/avatar', { data });
   };
 
   savePassword = (data: SavePasswordRequestData) => {
-    return profileAPIInstance.put<null | APIError>('/user/password', { data });
+    return profileAPIInstance.put<Nullable<APIError>>('/user/password', { data });
   };
 
   findUsers = (data: FindUsersRequestData) => {

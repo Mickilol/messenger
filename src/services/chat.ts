@@ -1,21 +1,31 @@
 import { ChatAPI } from '../api/chat-api';
 import { ProfileAPI } from '../api/profile-api';
-import { ChatDTO, ChatMessage } from '../api/types';
+import { ChatDTO, ChatMessage } from '../api/types/chat.types';
 import { defaultChatModifyModalState } from '../store';
 import { ChatModifyEntity, ChatModifyModal, ChatState } from '../store/types';
 import { hasError } from '../utils/apiHasError';
 import { PageUrl } from '../utils/urls';
 
-const chatAPI = new ChatAPI();
-const profileAPI = new ProfileAPI();
-
 class ChatService {
+  private readonly chatAPI: ChatAPI;
+  private readonly profileAPI: ProfileAPI;
+
+  constructor() {
+    this.chatAPI = new ChatAPI();
+    this.profileAPI = new ProfileAPI();
+  }
+
   public getChats = async () => {
     const chatState = window.store.getState().chat;
 
     try {
-      const response = await chatAPI.getChats({ title: chatState.searchFilter });
-      window.store.set({ chat: { ...chatState, list: response } });
+      const response = await this.chatAPI.getChats({ title: chatState.searchFilter });
+      window.store.set({
+        chat: {
+          ...chatState,
+          list: response
+        }
+      });
     } catch {
       window.router.go(PageUrl.ERROR);
     }
@@ -36,17 +46,27 @@ class ChatService {
         }
       });
 
-      const response = await chatAPI.createChat({ title: fieldValue });
+      const response = await this.chatAPI.createChat({ title: fieldValue });
 
       if (hasError(response)) {
         this.handleChatModifyError(chatState, response.reason);
         return;
       }
 
-      window.store.set({ chat: { ...chatState, chatModifyModal: defaultChatModifyModalState } });
+      window.store.set({
+        chat: {
+          ...chatState,
+          chatModifyModal: defaultChatModifyModalState
+        }
+      });
       this.getChats();
     } catch {
-      window.store.set({ chat: { ...chatState, chatModifyModal: defaultChatModifyModalState } });
+      window.store.set({
+        chat: {
+          ...chatState,
+          chatModifyModal: defaultChatModifyModalState
+        }
+      });
       window.router.go(PageUrl.ERROR);
     }
   };
@@ -65,11 +85,22 @@ class ChatService {
         }
       });
 
-      await chatAPI.deleteChat({ chatId: chatState.selectedChat!.id });
-      window.store.set({ chat: { ...chatState, selectedChat: null, chatModifyModal: defaultChatModifyModalState } });
+      await this.chatAPI.deleteChat({ chatId: chatState.selectedChat!.id });
+      window.store.set({
+        chat: {
+          ...chatState,
+          selectedChat: null,
+          chatModifyModal: defaultChatModifyModalState
+        }
+      });
       this.getChats();
     } catch {
-      window.store.set({ chat: { ...chatState, chatModifyModal: defaultChatModifyModalState } });
+      window.store.set({
+        chat: {
+          ...chatState,
+          chatModifyModal: defaultChatModifyModalState
+        }
+      });
       window.router.go(PageUrl.ERROR);
     }
   };
@@ -97,7 +128,7 @@ class ChatService {
         }
       });
 
-      const findUsersResponse = await profileAPI.findUsers({ login });
+      const findUsersResponse = await this.profileAPI.findUsers({ login });
 
       if (hasError(findUsersResponse)) {
         this.handleChatModifyError(chatState, findUsersResponse.reason);
@@ -105,17 +136,27 @@ class ChatService {
       }
 
       const response = isAddMode
-        ? await chatAPI.addUser({ users: [findUsersResponse[0].id], chatId: chatState.selectedChat!.id })
-        : await chatAPI.deleteUser({ users: [findUsersResponse[0].id], chatId: chatState.selectedChat!.id });
+        ? await this.chatAPI.addUser({ users: [findUsersResponse[0].id], chatId: chatState.selectedChat!.id })
+        : await this.chatAPI.deleteUser({ users: [findUsersResponse[0].id], chatId: chatState.selectedChat!.id });
 
       if (hasError(response)) {
         this.handleChatModifyError(chatState, response.reason);
         return;
       }
 
-      window.store.set({ chat: { ...chatState, chatModifyModal: defaultChatModifyModalState } });
+      window.store.set({
+        chat: {
+          ...chatState,
+          chatModifyModal: defaultChatModifyModalState
+        }
+      });
     } catch {
-      window.store.set({ chat: { ...chatState, chatModifyModal: defaultChatModifyModalState } });
+      window.store.set({
+        chat: {
+          ...chatState,
+          chatModifyModal: defaultChatModifyModalState
+        }
+      });
       window.router.go(PageUrl.ERROR);
     }
   };
@@ -137,12 +178,19 @@ class ChatService {
     const { chat: chatState } = window.store.getState();
 
     if (chatState.selectedChat) {
-      chatAPI.endChatting();
+      this.chatAPI.endChatting();
     }
 
     const selectedChat = chatState.list?.find(item => item.id === id) || null;
 
-    window.store.set({ chat: { ...chatState, selectedChat, paginationOffset: 0, messageList: [] } });
+    window.store.set({
+      chat: {
+        ...chatState,
+        selectedChat,
+        paginationOffset: 0,
+        messageList: []
+      }
+    });
     this.startChatting();
   };
 
@@ -150,16 +198,21 @@ class ChatService {
     const { chat: chatState } = window.store.getState();
 
     if (chatState.selectedChat) {
-      window.store.set({ chat: { ...chatState, selectedChat: null } });
-      chatAPI.endChatting();
+      window.store.set({
+        chat: {
+          ...chatState,
+          selectedChat: null
+        }
+      });
+      this.chatAPI.endChatting();
     }
   };
 
   private startChatting = async () => {
     const { chat: chatState, user } = window.store.getState();
-    const response = await chatAPI.getChatToken({ id: chatState.selectedChat!.id });
+    const response = await this.chatAPI.getChatToken({ id: chatState.selectedChat!.id });
 
-    chatAPI.startChatting(
+    this.chatAPI.startChatting(
       { userId: user!.id, chatId: chatState.selectedChat!.id, token: response.token },
       this.handleChattingOpen,
       this.handleChattingError,
@@ -169,18 +222,33 @@ class ChatService {
   };
 
   private handleChattingOpen = () => {
-    window.store.set({ chat: { ...window.store.getState().chat, error: '' } });
+    window.store.set({
+      chat: {
+        ...window.store.getState().chat,
+        error: ''
+      }
+    });
     this.getOldMessages();
   };
 
   private handleChattingError = (event: CloseEvent) => {
-    window.store.set({ chat: { ...window.store.getState().chat, error: event.reason } });
+    window.store.set({
+      chat: {
+        ...window.store.getState().chat,
+        error: event.reason
+      }
+    });
   };
 
   private handleGetMessage = (message: ChatMessage) => {
     const chatState = window.store.getState().chat;
 
-    window.store.set({ chat: { ...chatState, messageList: [...chatState.messageList, message] } });
+    window.store.set({
+      chat: {
+        ...chatState,
+        messageList: [...chatState.messageList, message]
+      }
+    });
     this.changeSelectedChatData({
       ...chatState.selectedChat,
       last_message: {
@@ -204,7 +272,13 @@ class ChatService {
       this.getOldMessages();
     }
 
-    window.store.set({ chat: { ...chatState, messageList, paginationOffset: messageList[0].id } });
+    window.store.set({
+      chat: {
+        ...chatState,
+        messageList,
+        paginationOffset: messageList[0].id
+      }
+    });
     this.changeSelectedChatData({
       ...chatState.selectedChat,
       unread_count: isUnreadMessagesReceived ? 0 : chatState.selectedChat?.unread_count
@@ -222,25 +296,39 @@ class ChatService {
       return chat;
     });
 
-    window.store.set({ chat: { ...chatState, selectedChat: data, list: chats } });
+    window.store.set({
+      chat: {
+        ...chatState,
+        selectedChat: data,
+        list: chats
+      }
+    });
   };
 
   public getOldMessages = () => {
     const chatState = window.store.getState().chat;
-    chatAPI.getOldMessage(chatState.paginationOffset);
+    this.chatAPI.getOldMessage(chatState.paginationOffset);
   };
 
   public sendMessage = (message: string) => {
-    chatAPI.sendMessage(message);
+    this.chatAPI.sendMessage(message);
   };
 
   public changeSearchField = (searchFilter: string) => {
-    window.store.set({ chat: { ...window.store.getState().chat, searchFilter } });
+    window.store.set({
+      chat: {
+        ...window.store.getState().chat,
+        searchFilter
+      }
+    });
     this.getChats();
   };
 
   public openChatModifyModal = (entity: ChatModifyEntity, isAddMode: boolean = true) => {
-    this.changeChatModifyModal({ isOpen: true, entity, isAddMode });
+    this.changeChatModifyModal({
+      isOpen: true,
+      entity, isAddMode
+    });
   };
 
   public closeChatModifyModal = () => {

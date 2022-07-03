@@ -1,4 +1,5 @@
-import { ChatDTO, ChatMessage, UserDTO } from '../api/types';
+import { ChatDTO, ChatMessage } from '../api/types/chat.types';
+import { UserDTO } from '../api/types/types';
 
 export type AppState = {
   isLoading: boolean;
