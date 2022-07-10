@@ -51,16 +51,8 @@
 
     width: 130px;
     height: 130px;
-    border-radius: 50%;
-    background-color: $grayBackgroundColor;
-
     margin-bottom: 20px;
     
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    color: #cdcdcd;
     cursor: pointer;
 
     &:hover {

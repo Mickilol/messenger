@@ -1,22 +1,48 @@
-import { renderDOM, registerComponent, BlockConstructable } from './core';
-import Login from './pages/login';
-import Register from './pages/register';
-import Error404 from './pages/errors/404';
-import Error500 from './pages/errors/500';
-import Profile from './pages/profile';
-import Chats from './pages/chats';
+import { registerComponent, Router } from './core';
+import { BlockConstructable } from './core/Block';
 
 import './styles/app.scss';
 import * as components from './components';
+import { Store } from './core/Store';
+import { AppState } from './store/types';
+import { defaultState } from './store';
+import { hasError as apiHasError } from './utils/apiHasError';
+import { AuthAPI } from './api/auth-api';
+import { initRouter } from './initRouter';
+
+declare global {
+  interface Window {
+    store: Store<AppState>;
+    router: Router;
+  }
+}
 
 Object.values(components).forEach((component: BlockConstructable) => {
   registerComponent(component);
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  // renderDOM(new Login({}));
-  // renderDOM(new Register({}));
-  // renderDOM(new Error404({}));
-  // renderDOM(new Profile({}));
-  renderDOM(new Chats({}));
+const authAPI = new AuthAPI();
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const store = new Store<AppState>(defaultState);
+  const router = new Router();
+
+  window.router = router;
+  window.store = store;
+
+  initRouter(router, store);
+
+  try {
+    const response = await authAPI.getUser();
+
+    if (apiHasError(response)) {
+      return;
+    }
+
+    store.set({ user: response });
+  } catch (err) {
+    console.error(err);
+  } finally {
+    router.start();
+  }
 });

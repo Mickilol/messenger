@@ -29,3 +29,32 @@
     }
   }
 }
+
+.file-field {
+  &__label {
+    display: inline-flex;
+    
+    color: $blueColor;
+    font-size: 12px;
+    line-height: 16px;
+    text-decoration: underline;
+    text-align: center;
+    width: 110px;
+    cursor: pointer;
+  }
+
+  &__name {
+    display: inline-flex;
+
+    font-size: 14px;
+    line-height: 16px;
+    text-align: center;
+    color: $grayTextColor;
+  }
+
+  &__input {
+    display: none;
+    background-color: transparent;
+    border: none;
+  }
+}

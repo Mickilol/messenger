@@ -1,4 +1,4 @@
-import { ChatDTO } from '../../api/types';
+import { ChatDTO } from '../../api/types/chat.types';
 import { Block } from '../../core';
 
 import './chatsList.scss';
@@ -43,19 +43,19 @@ export class ChatsList extends Block<IProps> {
             <div 
               class="chat-preview__wrapper {{#ifEqual value1=this.id value2=@root.selectedChatId}}chat-preview__wrapper_active{{/ifEqual}}"
             >
-              <span class="chat-preview__avatar"></span>
+              {{{Avatar classes="chat-preview__avatar" src=this.avatar }}}
 
               <div class="chat-preview__body">
                 <div class="chat-preview__header">
-                  <span class="chat-preview__name">{{this.name}}</span>
-                  <time class="chat-preview__timestamp">{{this.timestamp}}</time>
+                  <span class="chat-preview__name">{{this.title}}</span>
+                  <time class="chat-preview__timestamp">{{this.last_message.time}}</time>
                 </div>
                 
                 <div class="chat-preview__content">
-                  <span class="chat-preview__last-message">{{this.lastMessage}}</span>
+                  <span class="chat-preview__last-message">{{this.last_message.content}}</span>
 
-                  {{#if chat.unreadCounter}}
-                    <span class="chat-preview__unread-counter">{{this.unreadCounter}}</span>
+                  {{#if this.unread_count}}
+                    <span class="chat-preview__unread-counter">{{this.unread_count}}</span>
                   {{/if}}
                 </div>
               </div>

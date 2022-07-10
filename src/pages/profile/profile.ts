@@ -1,21 +1,47 @@
+import './profile.scss';
+
 import { Field } from '../../components';
 import { ButtonStyle, ButtonType } from '../../components/button/button';
 import Block from '../../core/Block';
+import { PageUrl } from '../../utils/urls';
 import { ValidationRule } from '../../utils/validator';
+import { UserDTO } from '../../api/types/types';
+import { connect } from '../../core/connect';
+import { AppState, AvatarChangeModal } from '../../store/types';
+import authService from '../../services/auth';
+import profileService from '../../services/profile';
+import avatarService from '../../services/avatar';
+import { omit } from '../../utils/mydash/omit';
 
-import './profile.scss';
-
-interface IProps {
-  viewMode?: boolean;
-  passwordChangeMode?: boolean;
-  user?: object;
-
+interface IOwnProps {
+  handleAvatarChangeBtnClick?: () => void;
+  handleAvatarChangeModalClose?: () => void;
+  handleAvatarChange?: (file: File) => void;
+  handleAvatarSave?: () => void;
   handleSave?: () => void;
   handelDataChangeBtnClick?: () => void;
   handlePasswordChangeBtnClick?: () => void;
+  handleLogoutBtnClick?: () => void;
 }
 
-interface IState { }
+interface IStateToProps {
+  user: Nullable<UserDTO>;
+  isLoading: boolean;
+  isViewMode: boolean;
+  isPasswordChangeMode: boolean;
+  error?: string;
+  avatarChangeModal: AvatarChangeModal;
+}
+
+type IProps = IOwnProps & IStateToProps;
+
+type IValues = Record<keyof Omit<IRefs, 'old_password' | 'password' | 'password_repeat'>, string>;
+type IPasswordChangeValues = Record<keyof Pick<IRefs, 'old_password' | 'password' | 'password_repeat'>, string>;
+
+interface IState {
+  values: IValues;
+  passwordValues: IPasswordChangeValues;
+}
 
 interface IRefs {
   email: Field;
@@ -36,31 +62,64 @@ const PASSWORD_CHANGE_MODE_KEYS_REFS: RefsKeys = [
   'old_password', 'password', 'password_repeat'
 ];
 
-export class Profile extends Block<IProps, IState, IRefs> {
-  constructor({ viewMode = true, passwordChangeMode, user }: IProps) {
-    super({
-      viewMode,
-      passwordChangeMode,
-      user,
-    });
+class Profile extends Block<IProps, IState, IRefs> {
+  constructor(props: IProps) {
+    super(props);
 
     this.setProps({
+      handleAvatarChangeBtnClick: this.handleAvatarChangeBtnClick,
+      handleAvatarChangeModalClose: this.handleAvatarChangeModalClose,
+      handleAvatarChange: this.handleAvatarChange,
+      handleAvatarSave: this.handleAvatarSave,
       handelDataChangeBtnClick: this.handelDataChangeBtnClick,
       handlePasswordChangeBtnClick: this.handlePasswordChangeBtnClick,
+      handleLogoutBtnClick: this.handleLogoutBtnClick,
       handleSave: this.handleSave,
     });
   }
+  
+  componentWillUnmount(): void {
+    profileService.resetData();
+  }
+
+  private handleAvatarChangeBtnClick = () => {
+    avatarService.openAvatarChangeModal();
+  };
+
+  private handleAvatarChangeModalClose = () => {
+    avatarService.closeAvatarChangeModal();
+  };
+
+  private handleAvatarChange = (file: File) => {
+    avatarService.changeAvatar(file);
+  };
+
+  private handleAvatarSave = () => {
+    avatarService.saveProfileAvatar();
+  };
 
   private handelDataChangeBtnClick = () => {
-    this.setProps({ viewMode: false });
+    if (this.props.user) {
+      this.setState({ values: omit(this.props.user, 'id', 'avatar') });
+    }
+
+    profileService.changeViewMode(false);
   };
 
   private handlePasswordChangeBtnClick = () => {
-    this.setProps({ viewMode: false, passwordChangeMode: true });
+    this.setState({ passwordValues: {} as IPasswordChangeValues });
+    profileService.changeViewMode(false);
+    profileService.changePasswordChangeMode(true);
+  };
+
+  private handleLogoutBtnClick = () => {
+    profileService.changeViewMode(true);
+    profileService.changePasswordChangeMode(false);
+    authService.logout();
   };
 
   private get refsKeys(): RefsKeys {
-    if (this.props.passwordChangeMode) {
+    if (this.props.isPasswordChangeMode) {
       return PASSWORD_CHANGE_MODE_KEYS_REFS;
     }
 
@@ -75,7 +134,7 @@ export class Profile extends Block<IProps, IState, IRefs> {
 
     let hasErrors = this.refsKeys.some(key => this.refs[key].getError());
 
-    if (this.props.passwordChangeMode && this.refs.password.getValue() !== this.refs.password_repeat.getValue()) {
+    if (this.props.isPasswordChangeMode && this.refs.password.getValue() !== this.refs.password_repeat.getValue()) {
       hasErrors = true;
       this.refs.password_repeat.showError('Пароли не совпадают');
     }
@@ -94,22 +153,37 @@ export class Profile extends Block<IProps, IState, IRefs> {
       return acc;
     }, {} as Record<Partial<keyof IRefs>, string>);
 
-    console.log(values);
+    if (this.props.isPasswordChangeMode) {
+      this.setState({ passwordValues: values });
+      profileService.savePassword({ oldPassword: values.old_password, newPassword: values.password });
+    } else {
+      this.setState({ values });
+      profileService.saveUser(values);
+    }
   };
 
   render() {
+    const { values } = this.state;
+    const { isViewMode, user } = this.props;
+
     return `
       <main class="profile__wrapper">
-        <a href="./chats.hbs" class="profile__back-link">
+        {{#Link href="${PageUrl.CHATS}" class="profile__back-link"}}
           <span class="profile__back-icon">
             <i class="fa-solid fa-arrow-left"></i>
           </span>
-        </a>
+        {{/Link}}
       
         <div class="profile__content">
-          <div class="profile__avatar">
-            <i class="fa-solid fa-image fa-3x"></i>
-          </div>
+          {{{Avatar icon="fa-solid fa-image fa-3x" src=user.avatar classes="profile__avatar" onClick=handleAvatarChangeBtnClick }}}
+
+          {{{AvatarChangeModal 
+            modalData=avatarChangeModal
+            onClose=handleAvatarChangeModalClose
+            onChange=handleAvatarChange
+            onSave=handleAvatarSave
+          }}}
+
           <span class="profile__name">{{user.display_name}}</span>
       
           <form class="profile__data-form" id="profileForm">
@@ -117,6 +191,7 @@ export class Profile extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="password"
               name="old_password"
+              value=passwordValues.old_password
               label="Старый пароль"
               validationRule="${ValidationRule.PASSWORD}"
               ref="old_password"
@@ -125,6 +200,7 @@ export class Profile extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="password"
               name="password"
+              value=passwordValues.password
               label="Новый пароль"
               validationRule="${ValidationRule.PASSWORD}"
               ref="password"
@@ -133,6 +209,7 @@ export class Profile extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="password" 
               name="password_repeat"
+              value=passwordValues.password_repeat
               label="Повторите пароль"
               validationRule="${ValidationRule.PASSWORD}"
               ref="password_repeat"
@@ -141,9 +218,9 @@ export class Profile extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="email"
               name="email"
-              initialValue=user.email
+              value="${isViewMode ? user?.email : values.email}"
               label="Почта"
-              disabled=${!!this.props.viewMode}
+              disabled=${!!isViewMode}
               validationRule="${ValidationRule.EMAIL}"
               ref="email"
             }}}
@@ -151,9 +228,9 @@ export class Profile extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="text"
               name="login"
-              initialValue=user.login
+              value="${isViewMode ? user?.login : values.login}"
               label="Логин"
-              disabled=${!!this.props.viewMode}
+              disabled=${!!isViewMode}
               validationRule="${ValidationRule.LOGIN}"
               ref="login"
             }}}
@@ -161,9 +238,9 @@ export class Profile extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="text"
               name="first_name"
-              initialValue=user.first_name
+              value="${isViewMode ? user?.first_name : values.first_name}"
               label="Имя"
-              disabled=${!!this.props.viewMode}
+              disabled=${!!isViewMode}
               validationRule="${ValidationRule.NAME}"
               ref="first_name"
             }}}
@@ -171,9 +248,9 @@ export class Profile extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="text"
               name="second_name"
-              initialValue=user.second_name
+              value="${isViewMode ? user?.second_name : values.second_name}"
               label="Фамилия"
-              disabled=${!!this.props.viewMode}
+              disabled=${!!isViewMode}
               validationRule="${ValidationRule.NAME}"
               ref="second_name"
             }}}
@@ -181,9 +258,9 @@ export class Profile extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="text" 
               name="display_name"
-              initialValue=user.display_name
+              value="${isViewMode ? user?.display_name : values.display_name}"
               label="Имя в чате"
-              disabled=${!!this.props.viewMode}
+              disabled=${!!isViewMode}
               validationRule="${ValidationRule.NAME}"
               ref="display_name"
             }}}
@@ -191,9 +268,9 @@ export class Profile extends Block<IProps, IState, IRefs> {
             {{{Field 
               type="tel"
               name="phone"
-              initialValue=user.phone
+              value="${isViewMode ? user?.phone : values.phone}"
               label="Телефон"
-              disabled=${!!this.props.viewMode}
+              disabled=${!!isViewMode}
               validationRule="${ValidationRule.PHONE}"
               ref="phone"
             }}}
@@ -201,7 +278,7 @@ export class Profile extends Block<IProps, IState, IRefs> {
           </form>
       
           <div class="profile__actions">
-            {{#if viewMode}}
+            {{#if isViewMode}}
               {{{Button 
                 text="Изменить данные"
                 classes="profile__action"
@@ -221,9 +298,11 @@ export class Profile extends Block<IProps, IState, IRefs> {
                 classes="profile__action"
                 spanType="${ButtonType.SPAN}"
                 style="${ButtonStyle.DANGER}"
-               }}}
+                onClick=handleLogoutBtnClick 
+              }}}
             {{else}}
-              {{{Button text="Сохранить" onClick=handleSave }}}
+              {{{Button text="Сохранить" onClick=handleSave isLoading=isLoading }}}
+              {{{Error text=error }}}
             {{/if}}
           </div>
         </div>
@@ -231,3 +310,9 @@ export class Profile extends Block<IProps, IState, IRefs> {
     `;
   }
 }
+
+export default connect(
+  Profile,
+  ({ isLoading, user, avatarChangeModal, profile: { isViewMode, isPasswordChangeMode, error } }: AppState): IStateToProps =>
+    ({ isLoading, user, isViewMode, isPasswordChangeMode, error, avatarChangeModal })
+);

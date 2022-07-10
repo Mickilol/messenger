@@ -15,6 +15,15 @@
   &:hover {
     opacity: 0.9;
   }
+
+  &:disabled {
+    cursor: default;
+    background-color: $darkBlueColor;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
 }
 
 .span-button {

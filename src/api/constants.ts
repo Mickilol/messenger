@@ -1,0 +1,1 @@
+export const API_ORIGIN = 'https://ya-praktikum.tech/api/v2';

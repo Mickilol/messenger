@@ -7,6 +7,5 @@ export default function renderDOM(block: Block) {
     throw new Error('В DOM нет элемента с id app');
   }
   
-  root!.innerHTML = '';
   root!.appendChild(block.getContent());
 }
