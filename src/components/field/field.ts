@@ -18,12 +18,14 @@ interface IProps {
   onChange?: (value: unknown) => void;
 }
 
+interface IState {}
+
 interface IRefs {
   error?: FieldError;
   input: FieldInput;
 }
 
-export class Field extends Block<IProps, null, IRefs> {
+export class Field extends Block<IProps, IState, IRefs> {
   static componentName = 'Field';
 
   constructor(props: IProps) {

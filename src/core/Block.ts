@@ -7,14 +7,10 @@ export interface BlockConstructable<P = any> {
   componentName: string;
 }
 
-interface BlockMeta<P = any> {
-  props: P;
-}
-
 type Events = Values<typeof Block.EVENTS>;
 
 export default class Block<P = any, S = any, R = any> {
-  static componentName: string;
+  static componentName: string
 
   static EVENTS = {
     INIT: 'init',
@@ -26,7 +22,6 @@ export default class Block<P = any, S = any, R = any> {
   } as const;
 
   public id = nanoid(6);
-  private readonly _meta: BlockMeta;
   protected _element: Nullable<HTMLElement> = null;
   protected readonly props: P;
   protected state: S = {} as S;
@@ -38,10 +33,6 @@ export default class Block<P = any, S = any, R = any> {
 
   public constructor(props?: P) {
     const eventBus = new EventBus<Events>();
-
-    this._meta = {
-      props,
-    };
 
     this.getStateFromProps(props || {} as P);
 
@@ -64,7 +55,7 @@ export default class Block<P = any, S = any, R = any> {
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
 
-  protected getStateFromProps(props: P): void {
+  protected getStateFromProps(_props: P): void {
     this.state = {} as S;
   }
 
@@ -97,7 +88,7 @@ export default class Block<P = any, S = any, R = any> {
     this.componentUpdated(oldProps, newProps);
   }
 
-  componentUpdated(oldProps: P, newProps: P) { }
+  componentUpdated(_oldProps: P, _newProps: P) { }
 
   _componentDidUpdate(oldProps: P, newProps: P) {
     const response = this.componentDidUpdate(oldProps, newProps);
@@ -108,7 +99,7 @@ export default class Block<P = any, S = any, R = any> {
     this.eventBus().emit(Block.EVENTS.FLOW_CU, oldProps, newProps);
   }
 
-  componentDidUpdate(oldProps: P, newProps: P) {
+  componentDidUpdate(_oldProps: P, _newProps: P) {
     return true;
   }
 

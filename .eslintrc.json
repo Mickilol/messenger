@@ -18,7 +18,7 @@
   "plugins": [
     "@typescript-eslint"
   ],
-  "ignorePatterns": ["server.js"],
+  "ignorePatterns": ["webpack*?.js"],
   "rules": {
     "import/extensions": "off",
     "no-use-before-define": "off",

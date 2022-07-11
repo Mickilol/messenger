@@ -19,7 +19,7 @@ const chatAPIInstance = new HTTPTransport(API_ORIGIN);
 
 export class ChatAPI {
   socket: Nullable<WebSocket> = null;
-  socketPingInterval: Nullable<number> = null;
+  socketPingInterval: Nullable<NodeJS.Timeout> = null;
 
   createChat = (data: CreateChatRequestData) => {
     return chatAPIInstance.post<Nullable<APIError>>('/chats', { data });

@@ -84,6 +84,6 @@
 
   &__input:focus ~ &__icon,
   &__input:not(:placeholder-shown) ~ &__icon {
-    left: 10;
+    left: 10px;
   }
 }
