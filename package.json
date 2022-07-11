@@ -17,7 +17,8 @@
     "express": "4.18.1",
     "handlebars": "4.7.7",
     "html-webpack-plugin": "5.5.0",
-    "husky": "8.0.1",
+    "husky": "4.3.8",
+    "jest": "28.1.2",
     "mini-css-extract-plugin": "2.6.1",
     "mocha": "10.0.0",
     "npm-run-all": "4.1.5",
@@ -38,14 +39,14 @@
     "start": "webpack serve --open --mode=development --progress",
     "build": "webpack --mode=production",
     "test": "npx jest",
-    "lint:eslint": "npx eslint .",
-    "lint:stylelint": "",
-    "lint:all": "npm-run-all lint:eslint lint:stylelint"
+    "lint:css": "npx stylelint ./src/**/*.scss",
+    "lint:js": "npx eslint .",
+    "lint:all": "npm-run-all lint:js lint:css"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm-run-all test lint:all",
-      "pre-push": "npm-run-all test lint:all"
+      "pre-commit": "npm run test & npm run lint:all",
+      "pre-push": "npm run test && lint:all"
     }
   },
   "repository": {

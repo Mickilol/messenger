@@ -10,7 +10,7 @@ export interface BlockConstructable<P = any> {
 type Events = Values<typeof Block.EVENTS>;
 
 export default class Block<P = any, S = any, R = any> {
-  static componentName: string
+  static componentName: string;
 
   static EVENTS = {
     INIT: 'init',
