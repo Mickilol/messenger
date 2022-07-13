@@ -43,7 +43,7 @@
     "start": "webpack serve --open --mode=development --progress",
     "build": "webpack --mode=production",
     "test": "npx jest",
-    "lint:css": "npx stylelint ./src/**/*.scss",
+    "lint:css": "npx stylelint --fix ./src/**/*.scss",
     "lint:js": "npx eslint .",
     "lint:all": "npm-run-all lint:js lint:css",
     "check": "npm-run-all test lint:all"
