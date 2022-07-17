@@ -20,6 +20,7 @@ interface IProps {
   spanType?: ButtonType;
   style?: ButtonStyle;
   isLoading: boolean;
+  dataTestId?: string;
   onClick?: (e: Event) => void;
 }
 
@@ -33,7 +34,10 @@ export class Button extends Block {
   protected render(): string {
     if (this.props.spanType === ButtonType.SPAN) {
       return `
-        <span class="span-button {{classes}} ${this.props.style === ButtonStyle.DANGER ? 'span-button_danger' : ''}">
+        <span 
+          class="span-button {{classes}} ${this.props.style === ButtonStyle.DANGER ? 'span-button_danger' : ''}"
+          {{#if dataTestId}}data-testid="{{dataTestId}}"{{/if}}
+        >
           {{text}} {{#if icon}}<i class="{{icon}}"></i>{{/if}}
         </span>
       `;
@@ -41,14 +45,20 @@ export class Button extends Block {
 
     if (this.props.spanType === ButtonType.CUSTOM_SPAN) {
       return `
-        <span class="{{classes}}">
+        <span class="{{classes}}" {{#if dataTestId}}data-testid="{{dataTestId}}"{{/if}}>
           {{text}} {{#if icon}}<i class="{{icon}}"></i>{{/if}}
         </span>
       `;
     }
 
     return `
-      <button class="button {{classes}}" type="{{type}}" form="{{formId}}" {{#if isLoading}}disabled{{/if}}>
+      <button 
+        class="button {{classes}}"
+        type="{{type}}"
+        form="{{formId}}"
+        {{#if isLoading}}disabled{{/if}}
+        {{#if dataTestId}}data-testid="{{dataTestId}}"{{/if}}
+      >
         {{text}} {{#if icon}}<i class="{{icon}}"></i>{{/if}}
       </button>
     `;

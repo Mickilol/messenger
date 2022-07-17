@@ -15,7 +15,7 @@ PR: [Sprint 3](https://github.com/Mickilol/middle.messenger.praktikum.yandex/pul
 - Поиск чата
 - Добавление / удаление пользователей в чатах
 
-[Preview](https://profound-semifreddo-123ee2.netlify.app/)
+[Preview](https://web-chat-matyushin.herokuapp.com/)
 
 ## Установка
 
@@ -25,6 +25,12 @@ npm install
 
 ```sh
 npm start
+```
+
+## Тесты
+
+```sh
+npm run test
 ```
 
 ## Стек разработки
@@ -47,3 +53,5 @@ npm start
 - Eslint
 - Stylelint
 - EditorConfig
+- Jest
+- Testing-library

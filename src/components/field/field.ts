@@ -12,6 +12,7 @@ interface IProps {
   disabled?: boolean;
   accept?: string;
   validationRule?: ValidationRule;
+  dataTestId?: string;
 
   onBlur?: (e: Event) => void;
   onInput?: (e: Event) => void;
@@ -101,7 +102,7 @@ export class Field extends Block<IProps, IState, IRefs> {
     }
 
     return `
-      <div class="field__wrapper">
+      <div class="field__wrapper" {{#if dataTestId}}data-testid="{{dataTestId}}"{{/if}}>
         {{{FieldInput 
           type=type
           name=name
