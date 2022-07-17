@@ -1,5 +1,5 @@
-import { formatDate } from '../utils/formatDate';
-import { HTTPTransport } from '../utils/httpTransport';
+import { formatDate } from 'utils/formatDate';
+import { HTTPTransport } from 'utils/httpTransport';
 import { API_ORIGIN } from './constants';
 import {
   ChatDTO,
@@ -19,7 +19,7 @@ const chatAPIInstance = new HTTPTransport(API_ORIGIN);
 
 export class ChatAPI {
   socket: Nullable<WebSocket> = null;
-  socketPingInterval: Nullable<number> = null;
+  socketPingInterval: Nullable<NodeJS.Timeout> = null;
 
   createChat = (data: CreateChatRequestData) => {
     return chatAPIInstance.post<Nullable<APIError>>('/chats', { data });

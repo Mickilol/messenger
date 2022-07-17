@@ -1,8 +1,8 @@
-import { ProfileAPI } from '../api/profile-api';
-import { SavePasswordRequestData, SaveUserRequestData } from '../api/types/profile.types';
-import { defaultAvatarChangeModalState } from '../store';
-import { hasError } from '../utils/apiHasError';
-import { PageUrl } from '../utils/urls';
+import { ProfileAPI } from 'api/profile-api';
+import { SavePasswordRequestData, SaveUserRequestData } from 'api/types/profile.types';
+import { defaultAvatarChangeModalState } from 'store';
+import { hasError } from 'utils/apiHasError';
+import { PageUrl } from 'utils/urls';
 
 class ProfileService {
   private readonly profileAPI: ProfileAPI;

@@ -1,17 +1,17 @@
 import './profile.scss';
 
-import { Field } from '../../components';
-import { ButtonStyle, ButtonType } from '../../components/button/button';
-import Block from '../../core/Block';
-import { PageUrl } from '../../utils/urls';
-import { ValidationRule } from '../../utils/validator';
-import { UserDTO } from '../../api/types/types';
-import { connect } from '../../core/connect';
-import { AppState, AvatarChangeModal } from '../../store/types';
-import authService from '../../services/auth';
-import profileService from '../../services/profile';
-import avatarService from '../../services/avatar';
-import { omit } from '../../utils/mydash/omit';
+import { ButtonStyle, ButtonType } from 'components/button/button';
+import Block from 'core/Block';
+import { PageUrl } from 'utils/urls';
+import { ValidationRule } from 'utils/validator';
+import { UserDTO } from 'api/types/types';
+import { connect } from 'core/connect';
+import { AppState, AvatarChangeModal } from 'store/types';
+import authService from 'services/auth';
+import profileService from 'services/profile';
+import avatarService from 'services/avatar';
+import { omit } from 'utils/mydash/omit';
+import { Field } from 'components';
 
 interface IOwnProps {
   handleAvatarChangeBtnClick?: () => void;
@@ -77,7 +77,14 @@ class Profile extends Block<IProps, IState, IRefs> {
       handleSave: this.handleSave,
     });
   }
-  
+
+  protected getStateFromProps(_props: IProps): void {
+    this.state = {
+      values: {} as IValues,
+      passwordValues: {} as IPasswordChangeValues
+    };
+  }
+
   componentWillUnmount(): void {
     profileService.resetData();
   }
@@ -187,12 +194,13 @@ class Profile extends Block<IProps, IState, IRefs> {
           <span class="profile__name">{{user.display_name}}</span>
       
           <form class="profile__data-form" id="profileForm">
-          {{#if passwordChangeMode}}
+          {{#if isPasswordChangeMode}}
             {{{Field 
               type="password"
               name="old_password"
               value=passwordValues.old_password
               label="Старый пароль"
+              dataTestId="old-password-field"
               validationRule="${ValidationRule.PASSWORD}"
               ref="old_password"
             }}}
@@ -202,6 +210,7 @@ class Profile extends Block<IProps, IState, IRefs> {
               name="password"
               value=passwordValues.password
               label="Новый пароль"
+              dataTestId="new-password-field"
               validationRule="${ValidationRule.PASSWORD}"
               ref="password"
             }}}
@@ -283,6 +292,7 @@ class Profile extends Block<IProps, IState, IRefs> {
                 text="Изменить данные"
                 classes="profile__action"
                 spanType="${ButtonType.SPAN}"
+                dataTestId="change-data-btn"
                 onClick=handelDataChangeBtnClick 
               }}}
 
@@ -301,7 +311,7 @@ class Profile extends Block<IProps, IState, IRefs> {
                 onClick=handleLogoutBtnClick 
               }}}
             {{else}}
-              {{{Button text="Сохранить" onClick=handleSave isLoading=isLoading }}}
+              {{{Button text="Сохранить" dataTestId="save-btn" onClick=handleSave isLoading=isLoading }}}
               {{{Error text=error }}}
             {{/if}}
           </div>

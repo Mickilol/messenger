@@ -1,5 +1,5 @@
-import { ChatMessage } from '../../api/types/chat.types';
-import Block from '../../core/Block';
+import { ChatMessage } from 'api/types/chat.types';
+import Block from 'core/Block';
 
 import './chatFeed.scss';
 

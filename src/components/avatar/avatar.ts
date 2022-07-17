@@ -1,5 +1,5 @@
-import { API_ORIGIN } from '../../api/constants';
-import Block from '../../core/Block';
+import { API_ORIGIN } from 'api/constants';
+import Block from 'core/Block';
 
 import './avatar.scss';
 

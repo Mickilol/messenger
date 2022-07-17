@@ -1,13 +1,13 @@
-import { registerComponent, Router } from './core';
-import { BlockConstructable } from './core/Block';
+import { registerComponent, Router } from 'core';
+import { BlockConstructable } from 'core/Block';
 
-import './styles/app.scss';
-import * as components from './components';
-import { Store } from './core/Store';
-import { AppState } from './store/types';
-import { defaultState } from './store';
-import { hasError as apiHasError } from './utils/apiHasError';
-import { AuthAPI } from './api/auth-api';
+import 'styles/app.scss';
+import * as components from 'components';
+import { Store } from 'core/Store';
+import { AppState } from 'store/types';
+import { defaultState } from 'store';
+import { hasError as apiHasError } from 'utils/apiHasError';
+import { AuthAPI } from 'api/auth-api';
 import { initRouter } from './initRouter';
 
 declare global {

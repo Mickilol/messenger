@@ -1,5 +1,5 @@
-import { Block } from '../../core';
-import { validate, ValidationRule } from '../../utils/validator';
+import { Block } from 'core';
+import { validate, ValidationRule } from 'utils/validator';
 import FieldError from '../fieldError';
 import FieldInput from '../fieldInput';
 import './field.scss';
@@ -12,18 +12,21 @@ interface IProps {
   disabled?: boolean;
   accept?: string;
   validationRule?: ValidationRule;
+  dataTestId?: string;
 
   onBlur?: (e: Event) => void;
   onInput?: (e: Event) => void;
   onChange?: (value: unknown) => void;
 }
 
+interface IState {}
+
 interface IRefs {
   error?: FieldError;
   input: FieldInput;
 }
 
-export class Field extends Block<IProps, null, IRefs> {
+export class Field extends Block<IProps, IState, IRefs> {
   static componentName = 'Field';
 
   constructor(props: IProps) {
@@ -99,7 +102,7 @@ export class Field extends Block<IProps, null, IRefs> {
     }
 
     return `
-      <div class="field__wrapper">
+      <div class="field__wrapper" {{#if dataTestId}}data-testid="{{dataTestId}}"{{/if}}>
         {{{FieldInput 
           type=type
           name=name

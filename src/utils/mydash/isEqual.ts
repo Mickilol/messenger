@@ -12,8 +12,12 @@ export function isEqual(a: PlainObject, b: PlainObject): boolean {
       continue;
     }
     
-    if (isPlainObject(a[key]) && isPlainObject([b[key]])) {
+    if (isPlainObject(a[key]) && isPlainObject(b[key])) {
       result = isEqual(a[key] as PlainObject, b[key] as PlainObject);
+
+      if (result === false) {
+        return false;
+      }
     } else if (a[key] !== b[key]) {
       return false;
     }

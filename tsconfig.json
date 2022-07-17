@@ -1,5 +1,17 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "api": ["api"],
+      "components": ["components"],
+      "core": ["core"],
+      "pages": ["pages"],
+      "services": ["services"],
+      "store": ["store"],
+      "styles": ["styles"],
+      "tests": ["tests"],
+      "utils": ["utils"]
+    },
     "target": "es2017",
     "lib": [
       "dom",
@@ -18,7 +30,6 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "sourceMap": true,

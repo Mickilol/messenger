@@ -1,14 +1,14 @@
-import { Router } from './core';
-import { PageUrl } from './utils/urls';
-import Login from './pages/login';
-import Register from './pages/register';
-import Error404 from './pages/errors/404';
-import Error500 from './pages/errors/500';
-import Profile from './pages/profile';
-import Chats from './pages/chats';
-import { AppState } from './store/types';
-import { Store } from './core/Store';
-import { BlockConstructable } from './core/Block';
+import { Router } from 'core';
+import { PageUrl } from 'utils/urls';
+import Login from 'pages/login';
+import Register from 'pages/register';
+import Error404 from 'pages/errors/404';
+import Error500 from 'pages/errors/500';
+import Profile from 'pages/profile';
+import Chats from 'pages/chats';
+import { AppState } from 'store/types';
+import { Store } from 'core/Store';
+import { BlockConstructable } from 'core/Block';
 
 
 const ROUTES: Array<{ path: string, block: BlockConstructable, shouldAuthorized: boolean, shouldUnAuthorized: boolean }> = [

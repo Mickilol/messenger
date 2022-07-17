@@ -1,5 +1,5 @@
 export function throttle(fn: Function, ms: number) {
-  let timeout: Nullable<number> = null;
+  let timeout: Nullable<NodeJS.Timeout> = null;
 
   return function (...args: unknown[]) {
     if (timeout) {

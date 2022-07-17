@@ -1,17 +1,17 @@
-import { UserDTO } from '../../api/types/types';
-import { ButtonType } from '../../components/button/button';
-import { ToolbarAction } from '../../components/toolbar/toolbar';
-import Block from '../../core/Block';
-import { connect } from '../../core/connect';
-import { AppState, AvatarChangeModal, ChatModifyEntity, ChatModifyModal } from '../../store/types';
-import { PageUrl } from '../../utils/urls';
-import chatService from '../../services/chat';
-import avatarService from '../../services/avatar';
+import { UserDTO } from 'api/types/types';
+import { ButtonType } from 'components/button/button';
+import { ToolbarAction } from 'components/toolbar/toolbar';
+import Block from 'core/Block';
+import { connect } from 'core/connect';
+import { AppState, AvatarChangeModal, ChatModifyEntity, ChatModifyModal } from 'store/types';
+import { PageUrl } from 'utils/urls';
+import chatService from 'services/chat';
+import avatarService from 'services/avatar';
 
 import './chats.scss';
-import { ChatFeed, Field } from '../../components';
-import { trim } from '../../utils/mydash/trim';
-import { ChatDTO, ChatMessage } from '../../api/types/chat.types';
+import { ChatFeed, Field } from 'components';
+import { trim } from 'utils/mydash/trim';
+import { ChatDTO, ChatMessage } from 'api/types/chat.types';
 
 interface IOwnProps {
   chatActions: ToolbarAction[];

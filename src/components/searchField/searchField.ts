@@ -1,5 +1,5 @@
-import Block from '../../core/Block';
-import { debounce } from '../../utils/mydash/debounce';
+import Block from 'core/Block';
+import { debounce } from 'utils/mydash/debounce';
 
 import './searchField.scss';
 
