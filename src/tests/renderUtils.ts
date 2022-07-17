@@ -1,11 +1,11 @@
-import { renderDOM, registerComponent, Router } from '../core';
-import * as components from '../components';
-import { AppState } from '../store/types';
-import { Store } from '../core/Store';
-import { BlockConstructable } from '../core/Block';
-import { defaultState } from '../store';
+import { renderDOM, registerComponent, Router } from 'core';
+import * as components from 'components';
+import { AppState } from 'store/types';
+import { Store } from 'core/Store';
+import { BlockConstructable } from 'core/Block';
+import { defaultState } from 'store';
 import { initRouter } from '../initRouter';
-import { sleep } from '../utils/sleep';
+import { sleep } from 'utils/sleep';
 
 type RenderBlockParams<T> = {
   Block: BlockConstructable<T>;

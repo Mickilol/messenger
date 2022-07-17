@@ -1,4 +1,4 @@
-import { HTTPTransport } from '../utils/httpTransport';
+import { HTTPTransport } from 'utils/httpTransport';
 import { API_ORIGIN } from './constants';
 import { FindUsersRequestData, ProfileResponseData, SavePasswordRequestData, SaveUserRequestData } from './types/profile.types';
 import { APIError, UserDTO } from './types/types';

@@ -1,10 +1,10 @@
-import { hasError } from '../utils/apiHasError';
-import { PageUrl } from '../utils/urls';
-import { AvatarAPI } from '../api/avatar-api';
-import { defaultAvatarChangeModalState } from '../store';
-import { AvatarChangeModal } from '../store/types';
-import chatService from '../services/chat';
-import { ChatDTO } from '../api/types/chat.types';
+import { hasError } from 'utils/apiHasError';
+import { PageUrl } from 'utils/urls';
+import { AvatarAPI } from 'api/avatar-api';
+import { defaultAvatarChangeModalState } from 'store';
+import { AvatarChangeModal } from 'store/types';
+import chatService from 'services/chat';
+import { ChatDTO } from 'api/types/chat.types';
 
 class AvatarService {
   private readonly avatarAPI: AvatarAPI;

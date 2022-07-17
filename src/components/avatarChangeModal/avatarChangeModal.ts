@@ -1,5 +1,5 @@
-import Block from '../../core/Block';
-import { AvatarChangeModal as AvatarChangeModalType } from '../../store/types';
+import Block from 'core/Block';
+import { AvatarChangeModal as AvatarChangeModalType } from 'store/types';
 import './avatarChangeModal.scss';
 
 interface IProps {

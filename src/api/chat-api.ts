@@ -1,5 +1,5 @@
-import { formatDate } from '../utils/formatDate';
-import { HTTPTransport } from '../utils/httpTransport';
+import { formatDate } from 'utils/formatDate';
+import { HTTPTransport } from 'utils/httpTransport';
 import { API_ORIGIN } from './constants';
 import {
   ChatDTO,

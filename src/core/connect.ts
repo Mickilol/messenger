@@ -1,5 +1,5 @@
-import { AppState } from '../store/types';
-import { isEqual } from '../utils/mydash/isEqual';
+import { AppState } from 'store/types';
+import { isEqual } from 'utils/mydash/isEqual';
 import { BlockConstructable } from './Block';
 import { StoreEvent } from './Store';
 

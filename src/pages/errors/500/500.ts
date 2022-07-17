@@ -1,5 +1,5 @@
-import { Block } from '../../../core';
-import { PageUrl } from '../../../utils/urls';
+import { Block } from 'core';
+import { PageUrl } from 'utils/urls';
 
 import '../error.scss';
 

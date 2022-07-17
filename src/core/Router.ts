@@ -1,5 +1,5 @@
 import renderDOM from './renderDOM';
-import Block, { BlockConstructable } from '../core/Block';
+import Block, { BlockConstructable } from 'core/Block';
 
 function isEqual(lhs: string, rhs: string): boolean {
   return lhs === rhs;

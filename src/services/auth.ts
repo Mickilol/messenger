@@ -1,7 +1,7 @@
-import { AuthAPI } from '../api/auth-api';
-import { LoginRequestData, RegisterRequestData } from '../api/types/auth.types';
-import { hasError } from '../utils/apiHasError';
-import { PageUrl } from '../utils/urls';
+import { AuthAPI } from 'api/auth-api';
+import { LoginRequestData, RegisterRequestData } from 'api/types/auth.types';
+import { hasError } from 'utils/apiHasError';
+import { PageUrl } from 'utils/urls';
 
 class AuthService {
   private readonly authAPI: AuthAPI;

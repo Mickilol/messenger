@@ -1,5 +1,17 @@
 {
   "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "api": ["api"],
+      "components": ["components"],
+      "core": ["core"],
+      "pages": ["pages"],
+      "services": ["services"],
+      "store": ["store"],
+      "styles": ["styles"],
+      "tests": ["tests"],
+      "utils": ["utils"]
+    },
     "target": "es2017",
     "lib": [
       "dom",
@@ -21,7 +33,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "sourceMap": true,
-    "strictNullChecks": true,
+    "strictNullChecks": true
   },
   "include": [
     "src", "typings"

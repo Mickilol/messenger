@@ -1,10 +1,10 @@
-import { ChatAPI } from '../api/chat-api';
-import { ProfileAPI } from '../api/profile-api';
-import { ChatDTO, ChatMessage } from '../api/types/chat.types';
-import { defaultChatModifyModalState } from '../store';
-import { ChatModifyEntity, ChatModifyModal, ChatState } from '../store/types';
-import { hasError } from '../utils/apiHasError';
-import { PageUrl } from '../utils/urls';
+import { ChatAPI } from 'api/chat-api';
+import { ProfileAPI } from 'api/profile-api';
+import { ChatDTO, ChatMessage } from 'api/types/chat.types';
+import { defaultChatModifyModalState } from 'store';
+import { ChatModifyEntity, ChatModifyModal, ChatState } from 'store/types';
+import { hasError } from 'utils/apiHasError';
+import { PageUrl } from 'utils/urls';
 
 class ChatService {
   private readonly chatAPI: ChatAPI;

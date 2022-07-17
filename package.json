@@ -26,6 +26,7 @@
     "husky": "4.3.8",
     "identity-obj-proxy": "3.0.0",
     "jest": "27.5.1",
+    "lint-staged": "13.0.3",
     "mini-css-extract-plugin": "2.6.1",
     "mocha": "10.0.0",
     "msw": "0.39.2",
@@ -44,19 +45,20 @@
     "webpack-merge": "5.8.0"
   },
   "scripts": {
-    "dev": "webpack serve --open --mode=development --progress",
+    "dev": "webpack serve --config=webpack.config.dev.js --open --progress",
     "start": "npm run build && node server.js",
-    "build": "webpack --mode=production",
+    "build": "webpack --config=webpack.config.prod.js",
     "test": "npx jest",
-    "lint:css": "npx stylelint --fix ./src/**/*.scss",
-    "lint:js": "npx eslint .",
-    "lint:all": "npm-run-all lint:js lint:css",
-    "check": "npm-run-all test lint:all"
+    "lint": "npx lint-staged",
+    "check": "npm-run-all lint test"
+  },
+  "lint-staged": {
+    "*.ts": "eslint",
+    "*.scss": "stylelint --fix"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run check",
-      "pre-push": "npm run check"
+      "pre-commit": "npm run check"
     }
   },
   "repository": {

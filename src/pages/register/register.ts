@@ -1,10 +1,10 @@
-import { Field } from '../../components';
-import Block from '../../core/Block';
-import { connect } from '../../core/connect';
-import { AppState } from '../../store/types';
-import { PageUrl } from '../../utils/urls';
-import { ValidationRule } from '../../utils/validator';
-import authService from '../../services/auth';
+import { Field } from 'components';
+import Block from 'core/Block';
+import { connect } from 'core/connect';
+import { AppState } from 'store/types';
+import { PageUrl } from 'utils/urls';
+import { ValidationRule } from 'utils/validator';
+import authService from 'services/auth';
 
 import './register.scss';
 

@@ -1,5 +1,5 @@
-import { Block } from '../../core';
-import { validate, ValidationRule } from '../../utils/validator';
+import { Block } from 'core';
+import { validate, ValidationRule } from 'utils/validator';
 import FieldError from '../fieldError';
 import FieldInput from '../fieldInput';
 import './field.scss';

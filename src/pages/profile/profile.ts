@@ -1,17 +1,17 @@
 import './profile.scss';
 
-import { Field } from '../../components';
-import { ButtonStyle, ButtonType } from '../../components/button/button';
-import Block from '../../core/Block';
-import { PageUrl } from '../../utils/urls';
-import { ValidationRule } from '../../utils/validator';
-import { UserDTO } from '../../api/types/types';
-import { connect } from '../../core/connect';
-import { AppState, AvatarChangeModal } from '../../store/types';
-import authService from '../../services/auth';
-import profileService from '../../services/profile';
-import avatarService from '../../services/avatar';
-import { omit } from '../../utils/mydash/omit';
+import { ButtonStyle, ButtonType } from 'components/button/button';
+import Block from 'core/Block';
+import { PageUrl } from 'utils/urls';
+import { ValidationRule } from 'utils/validator';
+import { UserDTO } from 'api/types/types';
+import { connect } from 'core/connect';
+import { AppState, AvatarChangeModal } from 'store/types';
+import authService from 'services/auth';
+import profileService from 'services/profile';
+import avatarService from 'services/avatar';
+import { omit } from 'utils/mydash/omit';
+import { Field } from 'components';
 
 interface IOwnProps {
   handleAvatarChangeBtnClick?: () => void;

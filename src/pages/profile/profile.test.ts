@@ -1,8 +1,8 @@
 import { getByTestId } from '@testing-library/dom';
 import Profile from './profile';
-import { renderBlock } from '../../tests/renderUtils';
-import { UserDTO } from '../../api/types/types';
-import { AvatarChangeModal } from '../../store/types';
+import { renderBlock } from 'tests/renderUtils';
+import { UserDTO } from 'api/types/types';
+import { AvatarChangeModal } from 'store/types';
 
 const USER_MOCK: UserDTO = {
   id: 3094,

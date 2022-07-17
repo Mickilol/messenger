@@ -1,5 +1,5 @@
-import { ChatDTO } from '../../api/types/chat.types';
-import { Block } from '../../core';
+import { ChatDTO } from 'api/types/chat.types';
+import { Block } from 'core';
 
 import './chatsList.scss';
 

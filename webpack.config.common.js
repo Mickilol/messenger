@@ -1,7 +1,6 @@
 const path = require('path');
 const CleanWebpackPlugin = require('clean-webpack-plugin').CleanWebpackPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: './src/index.ts',
@@ -15,14 +14,17 @@ module.exports = {
       "fs": false
     },
     alias: {
-      'handlebars' : 'handlebars/dist/handlebars.js'
+      handlebars : 'handlebars/dist/handlebars.js',
+      api: path.resolve(__dirname, 'src', 'api'),
+      components: path.resolve(__dirname, 'src', 'components'),
+      core: path.resolve(__dirname, 'src', 'core'),
+      pages: path.resolve(__dirname, 'src', 'pages'),
+      services: path.resolve(__dirname, 'src', 'services'),
+      store: path.resolve(__dirname, 'src', 'store'),
+      styles: path.resolve(__dirname, 'src', 'styles'),
+      tests: path.resolve(__dirname, 'src', 'tests'),
+      utils: path.resolve(__dirname, 'src', 'utils'),
     }
-  },
-  devServer: {
-    static: './dist',
-    hot: true,
-    port: 3000,
-    historyApiFallback: true
   },
   module: {
     rules: [
@@ -45,16 +47,6 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      template: 'src/index.html',
-      filename: 'index.html',
-      minify: {
-        collapseWhitespace: true,
-        removeComments: true,
-        removeRedundantAttributes: true,
-        useShortDoctype: true,
-      },
-    }),
     new MiniCssExtractPlugin({
       filename: 'style-[hash].css',
     }),
